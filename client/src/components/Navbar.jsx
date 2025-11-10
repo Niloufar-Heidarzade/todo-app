@@ -5,13 +5,17 @@ import { openBurgerMenu } from "../redux/slices/modalSlice";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { openSecondSidebar } from "../redux/slices/modalSlice";
+import { setView } from "../redux/slices/viewSlice";
 
 function Navbar() {
+
   const [isSortOpen, setIsSortOpen] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
   const route = location.pathname;
   const tasksData = useSelector((store) => store.tasks);
+  const viewState = useSelector((store) => store.view);
+
   const titles = {
     "/" : `All tasks (${tasksData.length} tasks)`,
     "/important" : `Important tasks (${tasksData.filter(task => task.isImportant).length} tasks)`,
@@ -96,14 +100,14 @@ function Navbar() {
       </div>
       <div className="mb-5 flex justify-between items-center">
         <div>
-          <button className="mr-2">
+          <button className="mr-2" onClick={() => dispatch(setView("rows"))}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}
-              stroke="gray"
-              className="size-6"
+              stroke={viewState === "rows" ? "rgb(139, 92, 246)" : "gray"}
+              className="size-6 cursor-pointer hover:stroke-rose-400"
             >
               <path
                 strokeLinecap="round"
@@ -112,14 +116,14 @@ function Navbar() {
               />
             </svg>
           </button>
-          <button>
+          <button onClick={() => dispatch(setView("cards"))}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}
-              stroke="rgb(139, 92, 246)"
-              className="size-6"
+              stroke={viewState === "cards" ? "rgb(139, 92, 246)" : "gray"}
+              className="size-6 cursor-pointer hover:stroke-rose-400"
             >
               <path
                 strokeLinecap="round"
