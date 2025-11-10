@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { openBurgerMenu } from "../redux/slices/modalSlice";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { openSecondSidebar } from "../redux/slices/modalSlice";
 
 function Navbar() {
   const [isSortOpen, setIsSortOpen] = useState(false);
@@ -86,6 +87,12 @@ function Navbar() {
         <h3 className="md:text-lg text-slate-700 font-medium text-center sm:text-start text-md">
          {titles[route]} 
         </h3>
+        <img
+          src="./user-profile.jpeg"
+          alt="user profile picture"
+          className="rounded-full w-9 h-9 lg:hidden absolute right-6 sm:top-31 top-4 md:top-20 cursor-pointer"
+          onClick={() => dispatch(openSecondSidebar())}
+        />
       </div>
       <div className="mb-5 flex justify-between items-center">
         <div>

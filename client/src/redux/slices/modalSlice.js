@@ -6,7 +6,8 @@ const modalSlice = createSlice({
     editDirectoryModal : false,
     newDirectoryModal : false,
     deleteTaskModal : false,
-    burgerMenuModal : false
+    burgerMenuModal : false,
+    secondSidebarModal : false,
   },
   reducers: {
     openEditDirectory: (state) => {
@@ -32,9 +33,15 @@ const modalSlice = createSlice({
     },
     closeBurgerMenu: (state) => {
       state.burgerMenuModal = false;
+    },
+    openSecondSidebar: (state) => {
+      state.secondSidebarModal = true;
+    },
+    closeSecondSidebar: (state) => {
+      state.secondSidebarModal = false;
     }
   }
 })
 
-export const {openEditDirectory , closeEditDirectory , openNewDirectory , closeNewDirectory , openDeleteTask , closeDeleteTask , openBurgerMenu , closeBurgerMenu} = modalSlice.actions;
+export const {openEditDirectory , closeEditDirectory , openNewDirectory , closeNewDirectory , openDeleteTask , closeDeleteTask , openBurgerMenu , closeBurgerMenu , openSecondSidebar , closeSecondSidebar} = modalSlice.actions;
 export default modalSlice.reducer;
