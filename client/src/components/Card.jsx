@@ -69,7 +69,10 @@ function Card({ data, index }) {
                   ? "bg-green-200 rounded-2xl md:rounded-xl w-6 md:w-22 text-sm h-6 text-green-800 cursor-pointer flex justify-center items-center"
                   : "bg-yellow-200 rounded-2xl md:rounded-xl w-6 md:w-25 text-sm h-6 text-yellow-800 cursor-pointer flex justify-center items-center"
               }
-              onClick={() => dispatch(toggleCompleteById(data.id))}
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(toggleCompleteById(data.id))
+              }}
               title={
                 data.isCompleted ? "mark as uncompleted" : "mark as completed"
               }
@@ -130,7 +133,10 @@ function Card({ data, index }) {
                   }
                   strokeWidth={1.5}
                   className="size-4 md:size-5 cursor-pointer"
-                  onClick={() => dispatch(toggleImportantById(data.id))}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(toggleImportantById(data.id))
+                  }}
                 >
                   <path
                     fillRule="evenodd"
@@ -145,7 +151,10 @@ function Card({ data, index }) {
                   viewBox="0 0 24 24"
                   fill={index === 0 ? "rgb(255,255,255)" : "rgb(82, 82, 122)"}
                   className="size-4 md:size-5 cursor-pointer"
-                  onClick={() => dispatch(openDeleteTask())}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    dispatch(openDeleteTask())
+                  }}
                 >
                   <path
                     fillRule="evenodd"
@@ -160,6 +169,9 @@ function Card({ data, index }) {
                   viewBox="0 0 24 24"
                   fill={index === 0 ? "rgb(255,255,255)" : "rgb(82, 82, 122)"}
                   className="size-4 md:size-5 cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                  }}
                 >
                   <path
                     fillRule="evenodd"

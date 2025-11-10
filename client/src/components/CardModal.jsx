@@ -10,7 +10,8 @@ import { useRef } from "react";
 
 function CardModal() {
 
-  const data = useSelector((store) => store.modal.cardModal.cardData.data);
+  const dataId = useSelector((store) => store.modal.cardModal.cardData.data.id);
+  const data = useSelector((store) => store.tasks.find(task => task.id === dataId))
   const index = useSelector((store) => store.modal.cardModal.cardData.index);
   const dispatch = useDispatch();
   const modalRef = useRef();
