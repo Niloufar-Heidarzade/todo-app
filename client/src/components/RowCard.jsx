@@ -5,43 +5,43 @@ import { toggleImportantById } from "../redux/slices/taskSlice";
 import { openDeleteTask } from "../redux/slices/modalSlice";
 import { openCardModal } from "../redux/slices/modalSlice";
 
-function Card({ data, index }) {
+function RowCard({ data, index }) {
   const dispatch = useDispatch();
   return (
-    <div className="md:w-60 sm:w-50 w-35 h-55 relative mb-4 hover:shadow-md" onClick={() => dispatch(openCardModal({data , index}))}>
+    <div className="w-full w-17 sm:h-25 relative mb-7 sm:mb-5 hover:shadow-md" onClick={() => dispatch(openCardModal({data , index}))}>
       <div className="absolute w-10 md:w-13 h-8 bg-red-200 text-center text-xs md:text-sm text-red-400 rounded-md right-3 -top-6 pt-1 z-0 cursor-pointer duration-200 hover:bg-red-300">
         {data.directory}
       </div>
       <div
         className={`w-full h-full ${
           index === 0 ? "bg-violet-500" : "bg-gray-50"
-        } rounded-sm relative z-1 p-4`}
+        } rounded-sm relative z-1 p-3`}
       >
-        <div className="h-30">
+        <div className="h-10">
           <p
             className={`${
               index === 0 ? "text-gray-100" : "text-gray-600"
-            } font-medium text-xs md:text-sm mb-2`}
+            } font-medium text-xs mb-1 sm:mb-2`}
           >
             {data.title}
           </p>
           <p
             className={`${
               index === 0 ? "text-gray-300" : "text-gray-400"
-            } text-xs md:text-sm truncate`}
+            } text-xs truncate md:w-75 w-20 sm:w-60`}
           >
             {data.description}
           </p>
         </div>
         <div>
-          <div className="flex">
+          <div className="flex absolute bottom-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke={index === 0 ? "white" : "gray"}
-              className="size-4 md:size-5 mr-2"
+              className="size-4 mr-2"
             >
               <path
                 strokeLinecap="round"
@@ -50,7 +50,7 @@ function Card({ data, index }) {
               />
             </svg>
             <p
-              className={`text-xs md:text-sm ${
+              className={`text-xs ${
                 index === 0 ? "text-gray-100" : "text-gray-400"
               }`}
             >
@@ -58,16 +58,16 @@ function Card({ data, index }) {
             </p>
           </div>
           <div
-            className={`border border-t border-dashed mt-3 ${
+            className={`mt-3 ${
               index === 0 ? "text-gray-400" : "text-gray-200"
             }`}
           ></div>
-          <div className="mt-2 flex justify-between items-center">
+          <div className="mt-2 flex justify-between items-center w-25 sm:w-45 absolute right-3  top-5 sm:top-8">
             <button
               className={
                 data.isCompleted
-                  ? "bg-green-200 rounded-2xl md:rounded-xl w-6 md:w-22 text-sm h-6 text-green-800 cursor-pointer flex justify-center items-center"
-                  : "bg-yellow-200 rounded-2xl md:rounded-xl w-6 md:w-25 text-sm h-6 text-yellow-800 cursor-pointer flex justify-center items-center"
+                  ? "bg-green-200 rounded-2xl md:rounded-xl w-6 sm:w-22 text-xs h-6 text-green-800 cursor-pointer flex justify-center items-center"
+                  : "bg-yellow-200 rounded-2xl md:rounded-xl w-6 sm:w-25 text-xs h-6 text-yellow-800 cursor-pointer flex justify-center items-center"
               }
               onClick={() => dispatch(toggleCompleteById(data.id))}
               title={
@@ -81,7 +81,7 @@ function Card({ data, index }) {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="size-4 md:hidden"
+                  className="size-4 sm:hidden"
                 >
                   <path
                     strokeLinecap="round"
@@ -97,7 +97,7 @@ function Card({ data, index }) {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="size-4 md:hidden"
+                  className="size-4 sm:hidden"
                 >
                   <path
                     strokeLinecap="round"
@@ -107,11 +107,11 @@ function Card({ data, index }) {
                 </svg>
               )}
 
-              <span className="hidden md:inline">
+              <span className="hidden sm:inline">
                 {data.isCompleted ? "completed" : "uncompleted"}
               </span>
             </button>
-            <div className="flex gap-1">
+            
               <div
                 title={
                   data.isImportant ? "mark as unimportant" : "mark as important"
@@ -168,7 +168,6 @@ function Card({ data, index }) {
                   />
                 </svg>
               </div>
-            </div>
           </div>
         </div>
       </div>
@@ -176,4 +175,4 @@ function Card({ data, index }) {
   );
 }
 
-export default Card;
+export default RowCard;

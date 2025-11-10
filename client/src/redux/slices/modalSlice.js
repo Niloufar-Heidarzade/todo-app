@@ -8,6 +8,10 @@ const modalSlice = createSlice({
     deleteTaskModal : false,
     burgerMenuModal : false,
     secondSidebarModal : false,
+    cardModal : {
+      isOpen : false,
+      cardData : {}
+    }
   },
   reducers: {
     openEditDirectory: (state) => {
@@ -39,9 +43,16 @@ const modalSlice = createSlice({
     },
     closeSecondSidebar: (state) => {
       state.secondSidebarModal = false;
-    }
+    },
+    openCardModal: (state , action) => {
+      state.cardModal.isOpen = true;
+      state.cardModal.cardData = action.payload;
+    },
+    closeCardModal: (state) => {
+      state.cardModal.isOpen = false;
+    },
   }
 })
 
-export const {openEditDirectory , closeEditDirectory , openNewDirectory , closeNewDirectory , openDeleteTask , closeDeleteTask , openBurgerMenu , closeBurgerMenu , openSecondSidebar , closeSecondSidebar} = modalSlice.actions;
+export const {openEditDirectory , closeEditDirectory , openNewDirectory , closeNewDirectory , openDeleteTask , closeDeleteTask , openBurgerMenu , closeBurgerMenu , openSecondSidebar , closeSecondSidebar , openCardModal , closeCardModal} = modalSlice.actions;
 export default modalSlice.reducer;

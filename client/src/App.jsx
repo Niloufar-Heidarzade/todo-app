@@ -13,12 +13,14 @@ import {useSelector} from "react-redux"
 import CreateNewDirectoryModal from "./components/CreateNewDirectoryModal";
 import DeleteTaskModal from "./components/DeleteTaskModal";
 import SecondSideBar from "./components/SecondSideBar";
+import CardModal from "./components/CardModal";
 
 
 function App() {
   const isEditDirectoryModalOpen = useSelector((store) => store.modal.editDirectoryModal);
   const isNewDirectoryModalOpen = useSelector((store) => store.modal.newDirectoryModal);
   const isDeleteTaskModalOpen = useSelector((store) => store.modal.deleteTaskModal);
+  const isCardModalOpen = useSelector((store) => store.modal.cardModal.isOpen);
 
   return (
   
@@ -41,6 +43,7 @@ function App() {
       {isEditDirectoryModalOpen && <EditDirectoryModal />}
       {isNewDirectoryModalOpen && <CreateNewDirectoryModal />}
       {isDeleteTaskModalOpen && <DeleteTaskModal />}
+      {isCardModalOpen && <CardModal />}
     </BrowserRouter>
   );
 }

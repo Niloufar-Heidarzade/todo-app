@@ -25,7 +25,7 @@ const taskSlice = createSlice({
       id: 3,
       directory: "Main",
       title: "Task 2",
-      description: "This is the description for this task",
+      description: "This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task",
       deadline: "05/15/2025",
       isCompleted: true,
       isImportant: true,
