@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { toggleCompleteById } from "../redux/slices/taskSlice";
 import { toggleImportantById } from "../redux/slices/taskSlice";
-import { openDeleteTask } from "../redux/slices/modalSlice";
+import { openDeleteTask, openEditTaskModal } from "../redux/slices/modalSlice";
 import { openCardModal } from "../redux/slices/modalSlice";
 import { useSelector } from "react-redux";
 import { closeCardModal } from "../redux/slices/modalSlice";
@@ -15,6 +15,8 @@ function CardModal() {
   const index = useSelector((store) => store.modal.cardModal.cardData.index);
   const dispatch = useDispatch();
   const modalRef = useRef();
+  const [year , month , day] = data.deadline.split("-");
+  const formattedDeadline = `${month}/${day}/${year}`;
 
   const handleClickOutside = (e) => {
     if(modalRef.current && !modalRef.current.contains(e.target)) {
@@ -90,7 +92,7 @@ function CardModal() {
                     index === 0 ? "text-gray-100" : "text-gray-400"
                   }`}
                 >
-                  {data.deadline}
+                  {formattedDeadline}
                 </p>
               </div>
               <div
@@ -187,7 +189,7 @@ function CardModal() {
                         index === 0 ? "rgb(255,255,255)" : "rgb(82, 82, 122)"
                       }
                       className="size-4 md:size-5 cursor-pointer"
-                      onClick={() => dispatch(openDeleteTask())}
+                      onClick={() => dispatch(openDeleteTask(data))}
                     >
                       <path
                         fillRule="evenodd"
@@ -204,6 +206,7 @@ function CardModal() {
                         index === 0 ? "rgb(255,255,255)" : "rgb(82, 82, 122)"
                       }
                       className="size-4 md:size-5 cursor-pointer"
+                      onClick={() => dispatch(openEditTaskModal(data))}
                     >
                       <path
                         fillRule="evenodd"

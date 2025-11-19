@@ -2,11 +2,13 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { toggleCompleteById } from "../redux/slices/taskSlice";
 import { toggleImportantById } from "../redux/slices/taskSlice";
-import { openDeleteTask } from "../redux/slices/modalSlice";
+import { openDeleteTask, openEditTaskModal } from "../redux/slices/modalSlice";
 import { openCardModal } from "../redux/slices/modalSlice";
 
 function Card({ data, index }) {
   const dispatch = useDispatch();
+  const [year , month , day] = data.deadline.split("-");
+  const formattedDeadline = `${month}/${day}/${year}`;
   return (
     <div className="md:w-60 sm:w-50 w-35 h-55 relative mb-4 hover:shadow-md" onClick={() => dispatch(openCardModal({data , index}))}>
       <div className="absolute w-10 md:w-13 h-8 bg-red-200 text-center text-xs md:text-sm text-red-400 rounded-md right-3 -top-6 pt-1 z-0 cursor-pointer duration-200 hover:bg-red-300">
@@ -54,7 +56,7 @@ function Card({ data, index }) {
                 index === 0 ? "text-gray-100" : "text-gray-400"
               }`}
             >
-              {data.deadline}
+              {formattedDeadline}
             </p>
           </div>
           <div
@@ -153,7 +155,7 @@ function Card({ data, index }) {
                   className="size-4 md:size-5 cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation()
-                    dispatch(openDeleteTask())
+                    dispatch(openDeleteTask(data))
                   }}
                 >
                   <path
@@ -170,7 +172,8 @@ function Card({ data, index }) {
                   fill={index === 0 ? "rgb(255,255,255)" : "rgb(82, 82, 122)"}
                   className="size-4 md:size-5 cursor-pointer"
                   onClick={(e) => {
-                    e.stopPropagation()
+                    e.stopPropagation();
+                    dispatch(openEditTaskModal(data))
                   }}
                 >
                   <path

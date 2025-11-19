@@ -14,6 +14,9 @@ import CreateNewDirectoryModal from "./components/CreateNewDirectoryModal";
 import DeleteTaskModal from "./components/DeleteTaskModal";
 import SecondSideBar from "./components/SecondSideBar";
 import CardModal from "./components/CardModal";
+import AddTaskModal from "./components/AddTaskModal";
+import EditTaskModal from "./components/EditTaskModal";
+
 
 
 function App() {
@@ -21,6 +24,8 @@ function App() {
   const isNewDirectoryModalOpen = useSelector((store) => store.modal.newDirectoryModal);
   const isDeleteTaskModalOpen = useSelector((store) => store.modal.deleteTaskModal);
   const isCardModalOpen = useSelector((store) => store.modal.cardModal.isOpen);
+  const isAddTaskModalOpen = useSelector((store) => store.modal.addTaskModal);
+  const isEditTaskModalOpen = useSelector((store) => store.modal.editTaskModal)
 
   return (
   
@@ -44,6 +49,8 @@ function App() {
       {isNewDirectoryModalOpen && <CreateNewDirectoryModal />}
       {isDeleteTaskModalOpen && <DeleteTaskModal />}
       {isCardModalOpen && <CardModal />}
+      {isAddTaskModalOpen && <AddTaskModal />}
+      {isEditTaskModalOpen && <EditTaskModal />}
     </BrowserRouter>
   );
 }

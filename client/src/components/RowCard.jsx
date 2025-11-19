@@ -2,11 +2,13 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { toggleCompleteById } from "../redux/slices/taskSlice";
 import { toggleImportantById } from "../redux/slices/taskSlice";
-import { openDeleteTask } from "../redux/slices/modalSlice";
+import { openDeleteTask, openEditTaskModal } from "../redux/slices/modalSlice";
 import { openCardModal } from "../redux/slices/modalSlice";
 
 function RowCard({ data, index }) {
   const dispatch = useDispatch();
+  const [year , month , day] = data.deadline.split("-");
+  const formattedDeadline = `${month}/${day}/${year}`;
   return (
     <div
       className="w-full w-17 sm:h-25 relative mb-7 sm:mb-5 hover:shadow-md"
@@ -57,7 +59,7 @@ function RowCard({ data, index }) {
                 index === 0 ? "text-gray-100" : "text-gray-400"
               }`}
             >
-              {data.deadline}
+              {formattedDeadline}
             </p>
           </div>
           <div
@@ -156,7 +158,7 @@ function RowCard({ data, index }) {
                 className="size-4 md:size-5 cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
-                  dispatch(openDeleteTask());
+                  dispatch(openDeleteTask(data));
                 }}
               >
                 <path
@@ -174,6 +176,7 @@ function RowCard({ data, index }) {
                 className="size-4 md:size-5 cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
+                  dispatch(openEditTaskModal(data))
                 }}
               >
                 <path

@@ -14,7 +14,7 @@ function EditDirectoryModal() {
   return (
     <>
       <div className="inset-0 fixed bg-black/50 z-50" onClick={closeIfClickOutside}></div>
-      <div className="z-60 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 w-90 h-46 rounded-sm py-5 px-4" ref={modalRef}>
+      <div className="z-60 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 w-70 sm:w-90 h-46 rounded-sm py-5 px-4" ref={modalRef}>
         <div className="flex justify-between">
           <h1 className="text-slate-700 font-medium">Edit directory name</h1>
           <svg

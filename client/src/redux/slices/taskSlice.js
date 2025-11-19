@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const taskSlice = createSlice({
   name: "tasks",
@@ -8,7 +8,7 @@ const taskSlice = createSlice({
       directory: "Main",
       title: "something",
       description: "hi there",
-      deadline: "10/19/2025",
+      deadline: "2025-10-19",
       isCompleted: false,
       isImportant: true,
     },
@@ -17,7 +17,7 @@ const taskSlice = createSlice({
       directory: "Main",
       title: "Task 1",
       description: "This is the description for this task",
-      deadline: "04/12/2025",
+      deadline: "2025-04-12",
       isCompleted: false,
       isImportant: false,
     },
@@ -26,7 +26,7 @@ const taskSlice = createSlice({
       directory: "Main",
       title: "Task 2",
       description: "This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task",
-      deadline: "05/15/2025",
+      deadline: "2025-05-15",
       isCompleted: true,
       isImportant: true,
     },
@@ -46,9 +46,18 @@ const taskSlice = createSlice({
     },
     deleteTask: (state , action) => {
       return state.filter(task => task.id !== action.payload)
+    },
+    addTask: (state , action) => {
+      const newTask = {id : nanoid(),...action.payload}
+      state.push(newTask)
+    },
+    editTask: (state , action) => {
+      const updatedTask = action.payload;
+      const index = state.findIndex(task => task.id === updatedTask.id);
+      if(index !== -1) state[index] = updatedTask;
     }
   }
 });
 
-export const {toggleCompleteById , toggleImportantById , deleteTask} = taskSlice.actions;
+export const {toggleCompleteById , toggleImportantById , deleteTask , addTask , editTask} = taskSlice.actions;
 export default taskSlice.reducer;
