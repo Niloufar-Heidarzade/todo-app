@@ -5,7 +5,7 @@ const taskSlice = createSlice({
   initialState: [
     {
       id: 1,
-      directory: "Main",
+      directory: "main",
       title: "something",
       description: "hi there",
       deadline: "2025-10-19",
@@ -14,7 +14,7 @@ const taskSlice = createSlice({
     },
     {
       id: 2,
-      directory: "Main",
+      directory: "main",
       title: "Task 1",
       description: "This is the description for this task",
       deadline: "2025-04-12",
@@ -23,7 +23,7 @@ const taskSlice = createSlice({
     },
     {
       id: 3,
-      directory: "Main",
+      directory: "main",
       title: "Task 2",
       description: "This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task",
       deadline: "2025-05-15",

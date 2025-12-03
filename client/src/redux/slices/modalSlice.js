@@ -14,7 +14,8 @@ const modalSlice = createSlice({
     },
     addTaskModal :false,
     editTaskModal :false,
-    selectedTask : null
+    selectedTask : null,
+    deleteDirectoryModal : false,
   },
   reducers: {
     openEditDirectory: (state) => {
@@ -69,9 +70,15 @@ const modalSlice = createSlice({
     closeEditTaskModal: (state) => {
       state.editTaskModal = false;
       state.selectedTask = null;
+    },
+    openDeleteDirectoryModal: (state) => {
+      state.deleteDirectoryModal = true;
+    },
+    closeDeleteDirectoryModal: (state) => {
+      state.deleteDirectoryModal = false;
     }
   }
 })
 
-export const {openEditDirectory , closeEditDirectory , openNewDirectory , closeNewDirectory , openDeleteTask , closeDeleteTask , openBurgerMenu , closeBurgerMenu , openSecondSidebar , closeSecondSidebar , openCardModal , closeCardModal , openAddTaskModal , closeAddTaskModal , openEditTaskModal , closeEditTaskModal} = modalSlice.actions;
+export const {openEditDirectory , closeEditDirectory , openNewDirectory , closeNewDirectory , openDeleteTask , closeDeleteTask , openBurgerMenu , closeBurgerMenu , openSecondSidebar , closeSecondSidebar , openCardModal , closeCardModal , openAddTaskModal , closeAddTaskModal , openEditTaskModal , closeEditTaskModal , openDeleteDirectoryModal , closeDeleteDirectoryModal} = modalSlice.actions;
 export default modalSlice.reducer;

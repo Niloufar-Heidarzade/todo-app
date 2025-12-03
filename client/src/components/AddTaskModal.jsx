@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
 import { closeAddTaskModal } from "../redux/slices/modalSlice";
 import {useForm} from "react-hook-form";
@@ -8,6 +8,7 @@ import { addTask } from "../redux/slices/taskSlice";
 
 const AddTaskModal = () => {
   const dispatch = useDispatch();
+  const directories = useSelector((store) => store.directory.directoriesList);
   const modalRef = useRef();
   const handleClickOutside = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -110,8 +111,7 @@ const AddTaskModal = () => {
           Select a directory
         </label>
         <select id="directory" className="w-full h-10 bg-gray-100 px-3 rounded text-gray-700 outline-none focus:border-2 focus:border-violet-500" {...register("directory")}>
-          <option value="Main">Main</option>
-          <option value="Secondary">Secondary</option>
+          {directories.map((dir) => <option value={dir.toLowerCase()}>{dir.charAt(0).toUpperCase() + dir.slice(1)}</option>)}
         </select>
         <div className="flex items-center mt-3">
           <div className="w-4 h-4 flex items-center justify-center">

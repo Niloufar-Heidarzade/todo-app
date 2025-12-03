@@ -3,34 +3,36 @@ import AddTaskButton from "./AddTaskButton";
 import { NavLink } from "react-router-dom";
 import { ChevronDown, SquarePen, Trash2 } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { openEditDirectory } from "../redux/slices/modalSlice";
-import {openNewDirectory} from "../redux/slices/modalSlice"
+import { openDeleteDirectoryModal, openEditDirectory } from "../redux/slices/modalSlice";
+import { openNewDirectory } from "../redux/slices/modalSlice";
 import { useSelector } from "react-redux";
 import { closeBurgerMenu } from "../redux/slices/modalSlice";
 import { useRef } from "react";
+import { setCurrentDirectory } from "../redux/slices/directorySlice";
 
 function SideBar() {
   const [isDirectoriesOpen, setIsDirectoriesOpen] = useState(true);
   const dispatch = useDispatch();
   const isOpen = useSelector((store) => store.modal.burgerMenuModal);
+  const directories = useSelector((store) => store.directory.directoriesList);
   const sidebarRef = useRef();
 
-  useEffect(()=>{
+  useEffect(() => {
     const handleClickOutside = (e) => {
-      if(sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
         dispatch(closeBurgerMenu());
       }
     };
 
-    document.addEventListener("mousedown" , handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {document.removeEventListener("mousedown" , handleClickOutside)}
-    
-  } , [dispatch])
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dispatch]);
 
   return (
     <div className="flex h-screen z-50">
-   
       <div
         className={`
           fixed top-0 left-0 h-full bg-neutral-100 shadow-lg
@@ -103,49 +105,46 @@ function SideBar() {
           </button>
           {isDirectoriesOpen && (
             <div>
-              <NavLink
-                to="/main"
-                className={({ isActive }) =>
-                  isActive
-                    ? "group block text-red-500 text-sm w-full h-8 pl-9 bg-purple-100 flex items-center border-e-4"
-                    : "group block text-gray-500 text-sm w-full h-8 pl-9 flex items-center"
-                }
+              {directories.map((dir) => {
+                return (
+                  <NavLink
+                    to={`/directory/${dir}`}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "group block text-red-500 text-sm w-full h-8 pl-9 bg-purple-100 flex items-center border-e-4"
+                        : "group block text-gray-500 text-sm w-full h-8 pl-9 flex items-center"
+                    }
+                    onClick={() => dispatch(setCurrentDirectory(dir))}
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span className="group-hover:text-red-500">
+                          {dir.charAt(0).toUpperCase() + dir.slice(1)}
+                        </span>
+                        <div
+                          className={`ml-auto mr-3 flex ${
+                            isActive
+                              ? "opacity-100"
+                              : "opacity-0 group-hover:opacity-100"
+                          }`}
+                        >
+                          {dir !== "main" && (
+                            <SquarePen
+                              className="w-4 mr-2"
+                              onClick={() => dispatch(openEditDirectory())}
+                            />
+                          )}
+                          {dir !== "main" && <Trash2 className="w-4 " onClick={() => dispatch(openDeleteDirectoryModal())} />}
+                        </div>
+                      </>
+                    )}
+                  </NavLink>
+                );
+              })}
+              <button
+                className="text-gray-500 text-sm h-8 ml-9 border-2 border-dashed border-gray-300 w-15 mt-3 rounded-sm cursor-pointer hover:text-purple-500"
+                onClick={() => dispatch(openNewDirectory())}
               >
-                {({ isActive }) => (
-                  <>
-                    <span className="group-hover:text-red-500"> Main</span>
-                    <div className={`ml-auto mr-3 flex ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
-                      <SquarePen className="w-4 mr-2" onClick={() => dispatch(openEditDirectory())}/>
-                      <Trash2 className="w-4 " />
-                    </div>
-                  </>
-                )}
-              </NavLink>
-              <NavLink
-                to="/secondary"
-                className={({ isActive }) =>
-                  isActive
-                    ? "group block text-red-500 text-sm w-full h-8 pl-9 bg-purple-100 flex items-center border-e-4"
-                    : "group block text-gray-500 text-sm w-full h-8 pl-9 flex items-center"
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <span className="group-hover:text-red-500">Secondary</span>
-                    <div
-                      className={`ml-auto mr-3 flex ${
-                        isActive
-                          ? "opacity-100"
-                          : "opacity-0 group-hover:opacity-100"
-                      }`}
-                    >
-                      <SquarePen className="w-4 mr-2" onClick={() => dispatch(openEditDirectory())}/>
-                      <Trash2 className="w-4" />
-                    </div>
-                  </>
-                )}
-              </NavLink>
-              <button className="text-gray-500 text-sm h-8 ml-9 border-2 border-dashed border-gray-300 w-15 mt-3 rounded-sm cursor-pointer hover:text-purple-500" onClick={() => dispatch(openNewDirectory())}>
                 + New
               </button>
             </div>

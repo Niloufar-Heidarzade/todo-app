@@ -5,8 +5,6 @@ import All from "./pages/All";
 import Important from "./pages/Important";
 import Completed from "./pages/Completed";
 import Uncompleted from "./pages/Uncompleted";
-import Main from "./pages/Main";
-import Secondary from "./pages/Secondary";
 import Navbar from "./components/Navbar";
 import EditDirectoryModal from "./components/EditDirectoryModal";
 import {useSelector} from "react-redux"
@@ -16,6 +14,8 @@ import SecondSideBar from "./components/SecondSideBar";
 import CardModal from "./components/CardModal";
 import AddTaskModal from "./components/AddTaskModal";
 import EditTaskModal from "./components/EditTaskModal";
+import Directory from "./pages/Directory";
+import DeleteDirectoryModal from "./components/DeleteDirectoryModal";
 
 
 
@@ -25,7 +25,8 @@ function App() {
   const isDeleteTaskModalOpen = useSelector((store) => store.modal.deleteTaskModal);
   const isCardModalOpen = useSelector((store) => store.modal.cardModal.isOpen);
   const isAddTaskModalOpen = useSelector((store) => store.modal.addTaskModal);
-  const isEditTaskModalOpen = useSelector((store) => store.modal.editTaskModal)
+  const isEditTaskModalOpen = useSelector((store) => store.modal.editTaskModal);
+  const isDeleteDirectoryModalOpen = useSelector((store) => store.modal.deleteDirectoryModal);
 
   return (
   
@@ -40,8 +41,7 @@ function App() {
             <Route path="/important" element={<Important />} />
             <Route path="/completed" element={<Completed />} />
             <Route path="/uncompleted" element={<Uncompleted />} />
-            <Route path="/main" element={<Main />} />
-            <Route path="/secondary" element={<Secondary />} />
+            <Route path="/directory/:dir" element={<Directory />} />
           </Routes>
         </div>
       </div>
@@ -51,6 +51,7 @@ function App() {
       {isCardModalOpen && <CardModal />}
       {isAddTaskModalOpen && <AddTaskModal />}
       {isEditTaskModalOpen && <EditTaskModal />}
+      {isDeleteDirectoryModalOpen && <DeleteDirectoryModal />}
     </BrowserRouter>
   );
 }

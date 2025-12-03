@@ -11,7 +11,7 @@ function Card({ data, index }) {
   const formattedDeadline = `${month}/${day}/${year}`;
   return (
     <div className="md:w-60 sm:w-50 w-35 h-55 relative mb-4 hover:shadow-md" onClick={() => dispatch(openCardModal({data , index}))}>
-      <div className="absolute w-10 md:w-13 h-8 bg-red-200 text-center text-xs md:text-sm text-red-400 rounded-md right-3 -top-6 pt-1 z-0 cursor-pointer duration-200 hover:bg-red-300">
+      <div className="absolute w-17 md:w-20 h-8 bg-red-200 text-center text-xs md:text-sm text-red-400 rounded-md right-3 -top-6 pt-1 z-0 cursor-pointer duration-200 hover:bg-red-300">
         {data.directory}
       </div>
       <div

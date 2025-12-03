@@ -2,12 +2,12 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
 import { closeEditTaskModal } from "../redux/slices/modalSlice";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { editTask } from "../redux/slices/taskSlice";
-
 
 const EditTaskModal = () => {
   const dispatch = useDispatch();
+  const directories = useSelector((store) => store.directory.directoriesList);
   const modalRef = useRef();
   const handleClickOutside = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -16,21 +16,21 @@ const EditTaskModal = () => {
   };
 
   const task = useSelector((store) => store.modal.selectedTask);
-  
+
   const onSubmit = (values) => {
-    dispatch(editTask({id:task.id , ...values}));
+    dispatch(editTask({ id: task.id, ...values }));
     reset();
     dispatch(closeEditTaskModal());
-  }
-  
+  };
+
   const {
     register,
     handleSubmit,
-    formState : {errors},
-    reset
+    formState: { errors },
+    reset,
   } = useForm({
-    defaultValues : task
-  })
+    defaultValues: task,
+  });
 
   return (
     <>
@@ -71,19 +71,21 @@ const EditTaskModal = () => {
           type="text"
           placeholder="e.g. study for the test"
           className="bg-gray-100 w-full mt-1 h-10 px-3 rounded text-sm focus:outline-none focus:border-2 focus:border-violet-500"
-          {...register("title" , {
-            required : "title is required",
-            minLength : {
-              value : 3,
-              message : "title can't be less than 3 characters"
+          {...register("title", {
+            required: "title is required",
+            minLength: {
+              value: 3,
+              message: "title can't be less than 3 characters",
             },
-            maxLength : {
-              value : 30,
-              message : "title can't be more than 30 characters"
-            }
+            maxLength: {
+              value: 30,
+              message: "title can't be more than 30 characters",
+            },
           })}
         />
-        {errors.title && <p className="text-rose-500 text-sm">{errors.title.message}</p>}
+        {errors.title && (
+          <p className="text-rose-500 text-sm">{errors.title.message}</p>
+        )}
         <label htmlFor="date" className="block text-gray-600 text-sm mt-3">
           Date
         </label>
@@ -113,9 +115,14 @@ const EditTaskModal = () => {
         >
           Select a directory
         </label>
-        <select id="directory" className="w-full h-10 bg-gray-100 px-3 rounded text-gray-700 outline-none focus:border-2 focus:border-violet-500" {...register("directory")}>
-          <option value="Main">Main</option>
-          <option value="Secondary">Secondary</option>
+        <select
+          id="directory"
+          className="w-full h-10 bg-gray-100 px-3 rounded text-gray-700 outline-none focus:border-2 focus:border-violet-500"
+          {...register("directory")}
+        >
+          {directories.map((dir) => (
+            <option value={dir.toLowerCase()}>{dir.charAt(0).toUpperCase() + dir.slice(1)}</option>
+          ))}
         </select>
         <div className="flex items-center mt-3">
           <div className="w-4 h-4 flex items-center justify-center">
@@ -145,7 +152,10 @@ const EditTaskModal = () => {
             Mark as completed
           </label>
         </div>
-        <button className="w-full mt-6 h-10 bg-violet-500 rounded text-gray-100 cursor-pointer hover:bg-violet-600 active:bg-violet-700 text-sm" type="submit">
+        <button
+          className="w-full mt-6 h-10 bg-violet-500 rounded text-gray-100 cursor-pointer hover:bg-violet-600 active:bg-violet-700 text-sm"
+          type="submit"
+        >
           Edit task
         </button>
       </form>

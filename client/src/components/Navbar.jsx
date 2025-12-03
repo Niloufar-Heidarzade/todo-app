@@ -44,7 +44,7 @@ function Navbar() {
           d="M3.75 9h16.5m-16.5 6.75h16.5"
         />
       </svg>
-      <div className="md:hidden top-0 fixed left-1/2 -translate-x-1/2 top-3">
+      <div className="md:hidden top-0 absolute left-1/2 -translate-x-1/2 top-3">
         <p className="text-sm text-slate-700 font-medium ">TO-DO LIST</p>
         <p className="text-sm text-gray-500 md:hidden ">
           {new Date().getFullYear()},{" "}
@@ -83,7 +83,7 @@ function Navbar() {
             day: "numeric",
           })}
         </p>
-        <div className="absolute bottom-5 sm:top-3 right-4 md:static ">
+        <div className="fixed bottom-5 sm:top-3 right-4 md:static z-60 md:z-1">
           <AddTaskButton width="w-30" />
         </div>
       </div>
