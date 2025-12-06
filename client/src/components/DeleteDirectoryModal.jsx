@@ -19,9 +19,9 @@ function DeleteDirectoryModal() {
   return (
     <>
       <div className="inset-0 fixed bg-black/50 z-50" onClick={closeIfClickOutside}></div>
-      <div className="fixed top-1/2 left-1/2 z-60 transform -translate-x-1/2 -translate-y-1/2  bg-gray-200 w-70 sm:w-98 h-41 rounded-sm py-5 px-4" ref={modalRef}>
+      <div className="fixed top-1/2 left-1/2 z-60 transform -translate-x-1/2 -translate-y-1/2  bg-gray-200 dark:bg-slate-800 w-70 sm:w-98 h-41 rounded-sm py-5 px-4" ref={modalRef}>
         <div className="flex justify-between">
-          <h1 className="text-slate-700 font-medium">Are you sure?</h1>
+          <h1 className="text-slate-700 font-medium dark:text-slate-300">Are you sure?</h1>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

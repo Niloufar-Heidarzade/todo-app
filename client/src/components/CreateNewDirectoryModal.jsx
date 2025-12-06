@@ -34,12 +34,12 @@ function CreateNewDirectoryModal() {
         onClick={closeIfClickOutside}
       ></div>
       <form
-        className="z-60 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 w-70 sm:w-90 h-49 rounded-sm py-5 px-4 pb-3"
+        className="z-60 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 dark:bg-slate-800 w-70 sm:w-90 h-49 rounded-sm py-5 px-4 pb-3"
         ref={modalRef}
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex justify-between">
-          <h1 className="text-slate-700 font-medium">Create new directory</h1>
+          <h1 className="text-slate-700 font-medium dark:text-slate-300">Create new directory</h1>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -56,13 +56,13 @@ function CreateNewDirectoryModal() {
             />
           </svg>
         </div>
-        <label htmlFor="directory" className="block mt-3 text-sm text-gray-600">
+        <label htmlFor="directory" className="block mt-3 text-sm text-gray-600 dark:text-gray-400">
           Title
         </label>
         <input
           type="text"
           placeholder="Enter a directory name"
-          className="bg-gray-50 w-full h-9 rounded-sm pl-2 text-sm focus:outline-none focus:border-1 focus:border-violet-500"
+          className="bg-gray-50 dark:bg-slate-600 dark:text-white w-full h-9 rounded-sm pl-2 text-sm focus:outline-none focus:border-1 focus:border-violet-500"
           id="directory"
           {...register("newDirectory", {
             required: "directory name is required",

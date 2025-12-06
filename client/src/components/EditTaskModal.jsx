@@ -41,12 +41,12 @@ const EditTaskModal = () => {
         {" "}
       </div>
       <form
-        className="w-70 sm:w-100 h-140 fixed bg-gray-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-60 rounded p-4"
+        className="w-70 sm:w-100 h-140 fixed bg-gray-300 dark:bg-slate-800 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-60 rounded p-4"
         ref={modalRef}
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex justify-between">
-          <p className="text-slate-700 font-medium text-lg">Edit task</p>
+          <p className="text-slate-700 font-medium text-lg dark:text-slate-300">Edit task</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -63,14 +63,14 @@ const EditTaskModal = () => {
             />
           </svg>
         </div>
-        <label htmlFor="title" className="block text-gray-600 text-sm mt-3">
+        <label htmlFor="title" className="block text-gray-600 text-sm mt-3 dark:text-gray-400">
           Title
         </label>
         <input
           id="title"
           type="text"
           placeholder="e.g. study for the test"
-          className="bg-gray-100 w-full mt-1 h-10 px-3 rounded text-sm focus:outline-none focus:border-2 focus:border-violet-500"
+          className="bg-gray-100 dark:bg-slate-600 dark:text-white w-full mt-1 h-10 px-3 rounded text-sm focus:outline-none focus:border-2 focus:border-violet-500"
           {...register("title", {
             required: "title is required",
             minLength: {
@@ -86,38 +86,38 @@ const EditTaskModal = () => {
         {errors.title && (
           <p className="text-rose-500 text-sm">{errors.title.message}</p>
         )}
-        <label htmlFor="date" className="block text-gray-600 text-sm mt-3">
+        <label htmlFor="date" className="block text-gray-600 text-sm mt-3 dark:text-gray-400">
           Date
         </label>
         <input
           id="date"
           type="date"
           defaultValue={new Date().toISOString().split("T")[0]}
-          className="bg-gray-100 w-full mt-1 h-10 px-3 rounded text-sm focus:outline-none focus:border-2 focus:border-violet-500"
+          className="bg-gray-100 dark:bg-slate-600 dark:text-white w-full mt-1 h-10 px-3 rounded text-sm focus:outline-none focus:border-2 focus:border-violet-500"
           {...register("deadline")}
         />
         <label
           htmlFor="description"
-          className="block text-gray-600 text-sm mt-3"
+          className="block text-gray-600 text-sm mt-3 dark:text-gray-400"
         >
           Description (optional)
         </label>
         <textarea
           id="description"
-          className="bg-gray-100 w-full mt-1 px-3 rounded text-sm focus:outline-none focus:border-2 focus:border-violet-500 pt-3"
+          className="bg-gray-100 dark:bg-slate-600 dark:text-white w-full mt-1 px-3 rounded text-sm focus:outline-none focus:border-2 focus:border-violet-500 pt-3"
           placeholder="e.g. study lesson 5"
           rows="4"
           {...register("description")}
         ></textarea>
         <label
           htmlFor="selectDirectory"
-          className="block text-gray-600 text-sm mt-3"
+          className="block text-gray-600 text-sm mt-3 dark:text-gray-400"
         >
           Select a directory
         </label>
         <select
           id="directory"
-          className="w-full h-10 bg-gray-100 px-3 rounded text-gray-700 outline-none focus:border-2 focus:border-violet-500"
+          className="w-full h-10 bg-gray-100 dark:bg-slate-600 dark:text-white px-3 rounded text-gray-700 outline-none focus:border-2 focus:border-violet-500"
           {...register("directory")}
         >
           {directories.map((dir) => (
@@ -134,7 +134,7 @@ const EditTaskModal = () => {
             />
             <div className="absolute w-2 h-2 bg-red-400 rounded-full scale-0 peer-checked:scale-100 transition-transform pointer-events-none"></div>
           </div>
-          <label className="ml-2 text-sm text-gray-700" htmlFor="important">
+          <label className="ml-2 text-sm text-gray-700 dark:text-gray-300" htmlFor="important">
             Mark as important
           </label>
         </div>
@@ -148,7 +148,7 @@ const EditTaskModal = () => {
             />
             <div className="absolute w-2 h-2 bg-red-400 rounded-full scale-0 peer-checked:scale-100 transition-transform pointer-events-none"></div>
           </div>
-          <label className="ml-2 text-sm text-gray-700" htmlFor="complete">
+          <label className="ml-2 text-sm text-gray-700 dark:text-gray-300" htmlFor="complete">
             Mark as completed
           </label>
         </div>

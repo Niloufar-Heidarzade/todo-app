@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { closeSecondSidebar } from "../redux/slices/modalSlice";
 
 function SecondSideBar() {
-  const isDarkmode = useSelector((store) => store.theme.darkmode);
+  const isDarkmode = useSelector((store) => store.theme.darkMode);
   const dispatch = useDispatch();
   const numberOfAllTasks = useSelector((store) => store.tasks.length);
   const numberOfDoneTasks = useSelector(
@@ -31,7 +31,7 @@ function SecondSideBar() {
 
   return (
     <div
-      className={`h-full lg:flex lg:w-50 bg-neutral-100 shadow-lg fixed top-0 right-0 items-center pt-5 flex-col px-4 ${
+      className={`h-full lg:flex lg:w-50 bg-neutral-100 dark:bg-slate-800 shadow-lg fixed top-0 right-0 items-center pt-5 flex-col px-4 ${
         !isOpen && "hidden"
       } lg:block z-50`}
       ref={modalRef}
@@ -54,7 +54,7 @@ function SecondSideBar() {
       </div>
 
       <div className="h-10 flex items-center gap-3">
-        <p className="text-slate-700 text-sm font-medium">Hi, User!</p>
+        <p className="text-slate-700 dark:text-gray-400 text-sm font-medium">Hi, User!</p>
         <img
           src="./user-profile.jpeg"
           alt="user profile picture"
@@ -62,11 +62,11 @@ function SecondSideBar() {
         />
       </div>
       <div className="mt-12 w-full flex justify-between items-center">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 dark:text-gray-300">
           {isDarkmode ? "Lightmode" : "Darkmode"}
         </p>
         <button
-          className="w-10 h-5 bg-gray-300 rounded-full relative"
+          className="w-10 h-5 bg-gray-300 dark:bg-gray-700 rounded-full relative"
           onClick={() => dispatch(toggleTheme())}
         >
           <span
@@ -78,10 +78,10 @@ function SecondSideBar() {
       </div>
       <div className="w-full mt-10">
         <div className="flex justify-between mb-2">
-          <p className="text-sm text-gray-500">All tasks</p>
-          <p className="text-sm text-gray-500">{`${numberOfDoneTasks}/${numberOfAllTasks}`}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">All tasks</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{`${numberOfDoneTasks}/${numberOfAllTasks}`}</p>
         </div>
-        <div className="bg-gray-300 w-full h-2 rounded-full">
+        <div className="bg-gray-300 dark:bg-gray-700 w-full h-2 rounded-full">
           <div
             className="bg-violet-500 h-2 rounded-full"
             style={{ width: `${progress}%` }}
@@ -89,12 +89,12 @@ function SecondSideBar() {
         </div>
       </div>
       <div className="absolute bottom-6 left-4 w-full">
-        <button className="text-xs text-gray-500 cursor-pointer hover:text-red-600">
+        <button className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:text-red-600">
           Delete all data
         </button>
-        <div className="w-10/12 bg-rose-100 h-7 mt-3 rounded-md flex items-center justify-center  cursor-pointer">
+        <div className="w-10/12 bg-rose-100 dark:bg-slate-700 h-7 mt-3 rounded-md flex items-center justify-center  cursor-pointer">
           <a
-            className="text-red-400 text-xs"
+            className="text-red-400 dark:text-white text-xs"
             href="https://github.com/Niloufar-Heidarzade"
           >
             Created by Niloufar

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "./components/SideBar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import All from "./pages/All";
@@ -20,6 +20,7 @@ import DeleteDirectoryModal from "./components/DeleteDirectoryModal";
 
 
 function App() {
+  
   const isEditDirectoryModalOpen = useSelector((store) => store.modal.editDirectoryModal);
   const isNewDirectoryModalOpen = useSelector((store) => store.modal.newDirectoryModal);
   const isDeleteTaskModalOpen = useSelector((store) => store.modal.deleteTaskModal);
@@ -27,11 +28,20 @@ function App() {
   const isAddTaskModalOpen = useSelector((store) => store.modal.addTaskModal);
   const isEditTaskModalOpen = useSelector((store) => store.modal.editTaskModal);
   const isDeleteDirectoryModalOpen = useSelector((store) => store.modal.deleteDirectoryModal);
+  const isDarkMode = useSelector((store) => store.theme.darkMode);
+
+  useEffect(() => {
+    if(isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  } , [isDarkMode]);
 
   return (
   
     <BrowserRouter>
-      <div data-theme="light" className="bg-gray-200 flex justify-center">
+      <div className="bg-gray-200 dark:bg-slate-900 flex justify-center">
         <SideBar className="w-2/10"/>
         <SecondSideBar />
         <div className="w-full  lg:w-19/30 px-4 sm:px-5 md:pl-53 lg:pl-15 pt-5">

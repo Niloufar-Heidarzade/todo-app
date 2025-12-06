@@ -45,7 +45,7 @@ function Navbar() {
         />
       </svg>
       <div className="md:hidden top-0 absolute left-1/2 -translate-x-1/2 top-3">
-        <p className="text-sm text-slate-700 font-medium ">TO-DO LIST</p>
+        <p className="text-sm text-slate-700 dark:text-slate-300 font-medium ">TO-DO LIST</p>
         <p className="text-sm text-gray-500 md:hidden ">
           {new Date().getFullYear()},{" "}
           {new Date().toLocaleString("en-US", {
@@ -72,7 +72,7 @@ function Navbar() {
           <input
             type="text"
             placeholder="Search task"
-            className="bg-gray-100 md:w-55 w-full h-10 rounded-sm text-sm pl-4"
+            className="bg-gray-100 dark:bg-slate-800 dark:text-white md:w-55 w-full h-10 rounded-sm text-sm pl-4"
           />
         </div>
         </div>
@@ -88,7 +88,7 @@ function Navbar() {
         </div>
       </div>
       <div className="mb-6">
-        <h3 className="md:text-lg text-slate-700 font-medium text-center sm:text-start text-md">
+        <h3 className="md:text-lg text-slate-700 dark:text-gray-300 font-medium text-center sm:text-start text-md">
          {titles[route]} 
         </h3>
         <img
@@ -136,7 +136,7 @@ function Navbar() {
         <div className="relative">
           <button
             onClick={() => setIsSortOpen(!isSortOpen)}
-            className={`bg-gray-100 w-35 h-9 text-sm text-gray-500 rounded-sm text-left pl-3 relative hover:border-2 hover:border-violet-500 ${
+            className={`bg-gray-100 dark:bg-slate-800 w-35 h-9 text-sm text-gray-500 dark:text-gray-300 rounded-sm text-left pl-3 relative hover:border-2 hover:border-violet-500 ${
               isSortOpen ? "border-2 border-violet-500" : ""
             }`}
           >
