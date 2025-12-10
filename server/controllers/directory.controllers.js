@@ -24,7 +24,7 @@ const updateDirectory = async (req ,res) => {
     const data = req.body;
     const result = await directoryModel.findByIdAndUpdate(id , data , {new : true , runValidators : true});
     if(!result) return res.status(404).json({error : "directory not found"});
-    res.status(200).json(result);
+    res.status(200).json({message : "directory updated successfully " , result});
   } catch (error) {
     res.status(500).json({error : error.message});
   }
@@ -41,6 +41,14 @@ const deleteDirectory = async (req , res) => {
   }
 };
 
-const getOneDirectory = async
+const getAllTasksOfOneDirectory = async (req , res) => {
+  try {
+    const {dirId} = req.params;
+    const result = await taskModel.find({dirId}).populate("dirId").exec();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({error : error.message});
+  }
+};
 
-module.exports = {createDirectory , getAllDirectories , updateDirectory , deleteDirectory};
+module.exports = {createDirectory , getAllDirectories , updateDirectory , deleteDirectory , getAllTasksOfOneDirectory};

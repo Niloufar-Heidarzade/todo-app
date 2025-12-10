@@ -4,12 +4,14 @@ require("dotenv").config();
 const logger = require("./middlewares/logger");
 const connectDB = require("./db/connectDB");
 const directoryRouter = require("./routes/directory.routes");
+const taskRouter = require("./routes/task.routes");
 
 const app = express();
 
 app.use(cors(), logger, express.json(), express.urlencoded({ extended: true }));
 
 app.use("/directories", directoryRouter);
+app.use("/tasks" , taskRouter)
 
 const port = process.env.PORT;
 const uri = process.env.MONGODB_URI;
