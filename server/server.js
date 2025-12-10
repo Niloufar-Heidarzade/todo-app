@@ -1,19 +1,29 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const logger = require("./middlewares/logger")
+const logger = require("./middlewares/logger");
+const connectDB = require("./db/connectDB");
 
 const app = express();
 
-app.use(cors() , logger , express.json() , express.urlencoded({extended : true}));
+app.use(cors(), logger, express.json(), express.urlencoded({ extended: true }));
 
-app.get("/" , (req , res) => {
+app.get("/", (req, res) => {
   res.send("Hi there!");
 });
 
 const port = process.env.PORT;
+const uri = process.env.MONGODB_URI;
 
-app.listen(port , () => {
-  console.log("server running successfully");
-});
+const start = async () => {
+  try {
+    await connectDB(uri);
+    app.listen(port, () => {
+      console.log("server running successfully");
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+start();

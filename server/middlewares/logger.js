@@ -3,7 +3,7 @@ const logger = async (req , res , next) => {
     console.log(`request route is : ${req.url} and request method is : ${req.method}`);
     next();
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 }
 
