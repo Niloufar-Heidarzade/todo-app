@@ -15,6 +15,10 @@ function SecondSideBar() {
     (store) => store.tasks.tasksList
   );
 
+  const user = useSelector(
+    (store) => store.user.user
+  );
+
   const numberOfAllTasks = tasks.length;
 
   const numberOfDoneTasks = tasks.filter(
@@ -83,7 +87,7 @@ function SecondSideBar() {
 
       <div className="h-10 flex items-center gap-3">
         <p className="text-slate-700 dark:text-gray-400 text-sm font-medium">
-          Hi, User!
+          Hi, {user?.username || "User"}!
         </p>
 
         <img

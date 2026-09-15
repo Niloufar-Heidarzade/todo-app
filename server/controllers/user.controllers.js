@@ -173,6 +173,27 @@ const loginUser = async (req, res) => {
   }
 };
 
+// GET CURRENT USER
+const getCurrentUser = async (req, res) => {
+  try {
+    const user = await userModel
+      .findById(req.user.userId)
+      .select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        error: "user not found",
+      });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
 // GET USER TASKS
 const getUserTasks = async (req, res) => {
   try {
@@ -203,5 +224,6 @@ module.exports = {
   updateUser,
   deleteUser,
   loginUser,
+  getCurrentUser,
   getUserTasks,
 };

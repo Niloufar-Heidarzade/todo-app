@@ -31,6 +31,8 @@ import Welcome from "./pages/Welcome";
 
 import { setDirectories } from "./redux/slices/directorySlice";
 import { setTasks } from "./redux/slices/taskSlice";
+import { setUser } from "./redux/slices/userSlice";
+
 import API_URL from "./API/api";
 import authFetch from "./API/authFetch";
 
@@ -56,6 +58,33 @@ function PublicRoute({ children }) {
 
 function MainLayout() {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await authFetch(
+          `${API_URL}/users/me`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.error || "Failed to fetch user"
+          );
+        }
+
+        dispatch(setUser(data));
+      } catch (error) {
+        console.error(
+          "Error fetching current user:",
+          error
+        );
+      }
+    };
+
+    fetchCurrentUser();
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchDirectories = async () => {

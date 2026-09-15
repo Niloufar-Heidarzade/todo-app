@@ -6,6 +6,7 @@ const {
   updateUser,
   deleteUser,
   loginUser,
+  getCurrentUser,
   getUserTasks,
 } = require("../controllers/user.controllers");
 
@@ -16,6 +17,8 @@ const router = express.Router();
 router.post("/", createUser);
 
 router.post("/login", loginUser);
+
+router.get("/me", authMiddleware, getCurrentUser);
 
 router.get("/:id/tasks", authMiddleware, getUserTasks);
 
