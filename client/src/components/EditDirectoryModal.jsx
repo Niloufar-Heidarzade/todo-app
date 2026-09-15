@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { closeEditDirectory } from "../redux/slices/modalSlice";
 import { editDirectory } from "../redux/slices/directorySlice";
 import API_URL from "../API/api";
+import authFetch from "../API/authFetch";
 
 function EditDirectoryModal() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function EditDirectoryModal() {
 
   const onSubmit = async (values) => {
     try {
-      const response = await fetch(
+      const response = await authFetch(
         `${API_URL}/directories/${current}`,
         {
           method: "PUT",
@@ -66,7 +67,10 @@ function EditDirectoryModal() {
       reset();
       dispatch(closeEditDirectory());
     } catch (error) {
-      console.error("Error updating directory:", error);
+      console.error(
+        "Error updating directory:",
+        error
+      );
     }
   };
 
@@ -94,7 +98,9 @@ function EditDirectoryModal() {
             strokeWidth={1.5}
             stroke="gray"
             className="size-5 cursor-pointer"
-            onClick={() => dispatch(closeEditDirectory())}
+            onClick={() =>
+              dispatch(closeEditDirectory())
+            }
           >
             <path
               strokeLinecap="round"

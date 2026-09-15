@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { closeAddTaskModal } from "../redux/slices/modalSlice";
 import { addTask } from "../redux/slices/taskSlice";
 import API_URL from "../API/api";
+import authFetch from "../API/authFetch";
 
 const AddTaskModal = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,10 @@ const AddTaskModal = () => {
   const modalRef = useRef();
 
   const handleClickOutside = (e) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
+    if (
+      modalRef.current &&
+      !modalRef.current.contains(e.target)
+    ) {
       dispatch(closeAddTaskModal());
     }
   };
@@ -29,25 +33,30 @@ const AddTaskModal = () => {
 
   const onSubmit = async (values) => {
     try {
-      const response = await fetch(`${API_URL}/tasks`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: values.title,
-          description: values.description,
-          deadline: values.deadline,
-          dirId: values.dirId,
-          important: values.important || false,
-          completed: values.completed || false,
-        }),
-      });
+      const response = await authFetch(
+        `${API_URL}/tasks`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: values.title,
+            description: values.description,
+            deadline: values.deadline,
+            dirId: values.dirId,
+            important: values.important || false,
+            completed: values.completed || false,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to create task");
+        throw new Error(
+          data.error || "Failed to create task"
+        );
       }
 
       dispatch(addTask(data));
@@ -55,7 +64,10 @@ const AddTaskModal = () => {
       reset();
       dispatch(closeAddTaskModal());
     } catch (error) {
-      console.error("Error creating task:", error);
+      console.error(
+        "Error creating task:",
+        error
+      );
     }
   };
 
@@ -83,7 +95,9 @@ const AddTaskModal = () => {
             strokeWidth={1.5}
             stroke="gray"
             className="size-5 cursor-pointer hover:stroke-red-500"
-            onClick={() => dispatch(closeAddTaskModal())}
+            onClick={() =>
+              dispatch(closeAddTaskModal())
+            }
           >
             <path
               strokeLinecap="round"
@@ -109,11 +123,13 @@ const AddTaskModal = () => {
             required: "title is required",
             minLength: {
               value: 3,
-              message: "title can't be less than 3 characters",
+              message:
+                "title can't be less than 3 characters",
             },
             maxLength: {
               value: 30,
-              message: "title can't be more than 30 characters",
+              message:
+                "title can't be more than 30 characters",
             },
           })}
         />
@@ -134,7 +150,9 @@ const AddTaskModal = () => {
         <input
           id="date"
           type="date"
-          defaultValue={new Date().toISOString().split("T")[0]}
+          defaultValue={
+            new Date().toISOString().split("T")[0]
+          }
           className="bg-gray-100 dark:bg-slate-600 dark:text-white w-full mt-1 h-10 px-3 rounded text-sm focus:outline-none focus:border-2 focus:border-violet-500"
           {...register("deadline", {
             required: "deadline is required",

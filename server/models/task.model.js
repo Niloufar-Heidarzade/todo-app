@@ -7,11 +7,38 @@ const taskSchema = new Schema({
     minlength: [3, "title must be 3 characters or more"],
     maxlength: [30, "title can't be more than 30 characters"],
   },
-  description: { type: String, default: "" },
-  completed: { type: Boolean, default: false },
-  important: { type: Boolean, default: false },
-  deadline: { type: Date, default: Date.now },
-  dirId: { type: Schema.Types.ObjectId, ref: "Directory", required: true },
+
+  description: {
+    type: String,
+    default: "",
+  },
+
+  completed: {
+    type: Boolean,
+    default: false,
+  },
+
+  important: {
+    type: Boolean,
+    default: false,
+  },
+
+  deadline: {
+    type: Date,
+    default: Date.now,
+  },
+
+  dirId: {
+    type: Schema.Types.ObjectId,
+    ref: "Directory",
+    required: true,
+  },
+
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 module.exports = model("Task", taskSchema);

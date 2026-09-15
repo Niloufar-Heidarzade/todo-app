@@ -5,6 +5,7 @@ import { closeDeleteDirectoryModal } from "../redux/slices/modalSlice";
 import { deleteDirectory } from "../redux/slices/directorySlice";
 import { deleteTask } from "../redux/slices/taskSlice";
 import API_URL from "../API/api";
+import authFetch from "../API/authFetch";
 
 function DeleteDirectoryModal() {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ function DeleteDirectoryModal() {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(
+      const response = await authFetch(
         `${API_URL}/directories/${current}`,
         {
           method: "DELETE",
@@ -57,7 +58,7 @@ function DeleteDirectoryModal() {
       );
 
       for (const task of tasksToDelete) {
-        const taskResponse = await fetch(
+        const taskResponse = await authFetch(
           `${API_URL}/tasks/${task._id}`,
           {
             method: "DELETE",
@@ -72,7 +73,10 @@ function DeleteDirectoryModal() {
       dispatch(deleteDirectory(current));
       dispatch(closeDeleteDirectoryModal());
     } catch (error) {
-      console.error("Error deleting directory:", error);
+      console.error(
+        "Error deleting directory:",
+        error
+      );
     }
   };
 
@@ -99,7 +103,9 @@ function DeleteDirectoryModal() {
             strokeWidth={1.5}
             stroke="gray"
             className="size-5 cursor-pointer"
-            onClick={() => dispatch(closeDeleteDirectoryModal())}
+            onClick={() =>
+              dispatch(closeDeleteDirectoryModal())
+            }
           >
             <path
               strokeLinecap="round"
@@ -117,7 +123,9 @@ function DeleteDirectoryModal() {
 
         <button
           className="text-sm text-gray-500 cursor-pointer mr-1 w-20 h-9 rounded-sm hover:border-2 hover:border-violet-500"
-          onClick={() => dispatch(closeDeleteDirectoryModal())}
+          onClick={() =>
+            dispatch(closeDeleteDirectoryModal())
+          }
         >
           Cancel
         </button>

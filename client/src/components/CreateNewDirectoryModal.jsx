@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { closeNewDirectory } from "../redux/slices/modalSlice";
 import { createDirectory } from "../redux/slices/directorySlice";
 import API_URL from "../API/api";
+import authFetch from "../API/authFetch";
 
 function CreateNewDirectoryModal() {
   const dispatch = useDispatch();
@@ -28,15 +29,18 @@ function CreateNewDirectoryModal() {
 
   const onSubmit = async (values) => {
     try {
-      const response = await fetch(`${API_URL}/directories`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: values.newDirectory,
-        }),
-      });
+      const response = await authFetch(
+        `${API_URL}/directories`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: values.newDirectory,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -51,7 +55,10 @@ function CreateNewDirectoryModal() {
       reset();
       dispatch(closeNewDirectory());
     } catch (error) {
-      console.error("Error creating directory:", error);
+      console.error(
+        "Error creating directory:",
+        error
+      );
     }
   };
 
@@ -79,7 +86,9 @@ function CreateNewDirectoryModal() {
             strokeWidth={1.5}
             stroke="gray"
             className="size-5 cursor-pointer"
-            onClick={() => dispatch(closeNewDirectory())}
+            onClick={() =>
+              dispatch(closeNewDirectory())
+            }
           >
             <path
               strokeLinecap="round"

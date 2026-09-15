@@ -1,7 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import AddTaskButton from "./AddTaskButton";
 import { NavLink } from "react-router-dom";
-import { ChevronDown, SquarePen, Trash2 } from "lucide-react";
+import {
+  ChevronDown,
+  SquarePen,
+  Trash2,
+  LogOut,
+} from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -9,6 +14,7 @@ import {
   openEditDirectory,
   openNewDirectory,
   closeBurgerMenu,
+  openLogoutModal,
 } from "../redux/slices/modalSlice";
 
 import { setCurrentDirectory } from "../redux/slices/directorySlice";
@@ -66,7 +72,7 @@ function SideBar() {
         </div>
 
         <NavLink
-          to="/"
+          to="/tasks"
           className={({ isActive }) =>
             isActive
               ? "block text-red-500 dark:text-white text-sm w-full mt-4 h-10 flex items-center pl-4 bg-purple-100 dark:bg-slate-700 border-e-4"
@@ -197,6 +203,15 @@ function SideBar() {
             </div>
           )}
         </div>
+
+        <button
+          type="button"
+          onClick={() => dispatch(openLogoutModal())}
+          className="absolute bottom-6 left-4 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-white cursor-pointer"
+        >
+          <LogOut className="w-4" />
+          Log out
+        </button>
       </div>
     </div>
   );

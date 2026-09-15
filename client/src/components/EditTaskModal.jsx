@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { closeEditTaskModal } from "../redux/slices/modalSlice";
 import { editTask } from "../redux/slices/taskSlice";
 import API_URL from "../API/api";
+import authFetch from "../API/authFetch";
 
 const EditTaskModal = () => {
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const EditTaskModal = () => {
 
   const onSubmit = async (values) => {
     try {
-      const response = await fetch(
+      const response = await authFetch(
         `${API_URL}/tasks/${task._id}`,
         {
           method: "PUT",
@@ -85,7 +86,10 @@ const EditTaskModal = () => {
       reset();
       dispatch(closeEditTaskModal());
     } catch (error) {
-      console.error("Error updating task:", error);
+      console.error(
+        "Error updating task:",
+        error
+      );
     }
   };
 
@@ -115,7 +119,9 @@ const EditTaskModal = () => {
             strokeWidth={1.5}
             stroke="gray"
             className="size-5 cursor-pointer hover:stroke-red-500"
-            onClick={() => dispatch(closeEditTaskModal())}
+            onClick={() =>
+              dispatch(closeEditTaskModal())
+            }
           >
             <path
               strokeLinecap="round"
@@ -141,11 +147,13 @@ const EditTaskModal = () => {
             required: "title is required",
             minLength: {
               value: 3,
-              message: "title can't be less than 3 characters",
+              message:
+                "title can't be less than 3 characters",
             },
             maxLength: {
               value: 30,
-              message: "title can't be more than 30 characters",
+              message:
+                "title can't be more than 30 characters",
             },
           })}
         />
@@ -203,7 +211,8 @@ const EditTaskModal = () => {
         >
           {directories.map((dir) => (
             <option key={dir._id} value={dir._id}>
-              {dir.name.charAt(0).toUpperCase() + dir.name.slice(1)}
+              {dir.name.charAt(0).toUpperCase() +
+                dir.name.slice(1)}
             </option>
           ))}
         </select>

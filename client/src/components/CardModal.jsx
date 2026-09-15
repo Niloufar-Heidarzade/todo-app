@@ -13,6 +13,7 @@ import {
 } from "../redux/slices/modalSlice";
 
 import API_URL from "../API/api";
+import authFetch from "../API/authFetch";
 
 function CardModal() {
   const dispatch = useDispatch();
@@ -26,7 +27,9 @@ function CardModal() {
   const index = cardData?.index ?? 0;
 
   const data = useSelector((store) =>
-    store.tasks.tasksList.find((task) => task._id === dataId)
+    store.tasks.tasksList.find(
+      (task) => task._id === dataId
+    )
   );
 
   if (!data) return null;
@@ -48,7 +51,7 @@ function CardModal() {
 
   const updateTask = async (updatedData) => {
     try {
-      const response = await fetch(
+      const response = await authFetch(
         `${API_URL}/tasks/${data._id}`,
         {
           method: "PUT",
@@ -69,7 +72,10 @@ function CardModal() {
 
       return result.result;
     } catch (error) {
-      console.error("Error updating task:", error);
+      console.error(
+        "Error updating task:",
+        error
+      );
     }
   };
 
@@ -136,7 +142,9 @@ function CardModal() {
                 strokeWidth={1.5}
                 stroke={index === 0 ? "white" : "darkBlue"}
                 className="size-5 cursor-pointer"
-                onClick={() => dispatch(closeCardModal())}
+                onClick={() =>
+                  dispatch(closeCardModal())
+                }
               >
                 <path
                   strokeLinecap="round"
@@ -277,7 +285,7 @@ function CardModal() {
                   >
                     <path
                       fillRule="evenodd"
-                      d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                      d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
                       clipRule="evenodd"
                     />
                   </svg>
@@ -299,7 +307,7 @@ function CardModal() {
                   >
                     <path
                       fillRule="evenodd"
-                      d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 1 0 1.5.058l.345-9Z"
+                      d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75 1 0 0 1 1.5.058l.345-9Z"
                       clipRule="evenodd"
                     />
                   </svg>

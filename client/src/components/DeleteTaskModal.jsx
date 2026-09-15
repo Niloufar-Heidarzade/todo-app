@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeDeleteTask } from "../redux/slices/modalSlice";
 import { deleteTask } from "../redux/slices/taskSlice";
 import API_URL from "../API/api";
+import authFetch from "../API/authFetch";
 
 function DeleteTaskModal() {
   const dispatch = useDispatch();
@@ -26,9 +27,12 @@ function DeleteTaskModal() {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${API_URL}/tasks/${id}`, {
-        method: "DELETE",
-      });
+      const response = await authFetch(
+        `${API_URL}/tasks/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       const data = await response.json();
 
@@ -41,7 +45,10 @@ function DeleteTaskModal() {
       dispatch(deleteTask(id));
       dispatch(closeDeleteTask());
     } catch (error) {
-      console.error("Error deleting task:", error);
+      console.error(
+        "Error deleting task:",
+        error
+      );
     }
   };
 
