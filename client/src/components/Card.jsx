@@ -1,41 +1,119 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleCompleteById } from "../redux/slices/taskSlice";
-import { toggleImportantById } from "../redux/slices/taskSlice";
-import { openDeleteTask, openEditTaskModal } from "../redux/slices/modalSlice";
-import { openCardModal } from "../redux/slices/modalSlice";
+import {
+  toggleCompleteById,
+  toggleImportantById,
+} from "../redux/slices/taskSlice";
+import {
+  openDeleteTask,
+  openEditTaskModal,
+  openCardModal,
+} from "../redux/slices/modalSlice";
+import API_URL from "../API/api";
 
 function Card({ data, index }) {
   const dispatch = useDispatch();
+
   const isDark = useSelector((store) => store.theme.darkMode);
-  const [year , month , day] = data.deadline.split("-");
+
+  const [year, month, day] = data.deadline
+    .split("T")[0]
+    .split("-");
+
   const formattedDeadline = `${month}/${day}/${year}`;
+
+  const updateTask = async (updatedData) => {
+    try {
+      const response = await fetch(`${API_URL}/tasks/${data._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      const updatedTask = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          updatedTask.error || "Failed to update task"
+        );
+      }
+
+      return updatedTask.result;
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
+  };
+
+  const handleToggleComplete = async (e) => {
+    e.stopPropagation();
+
+    const newCompleted = !data.completed;
+
+    const updatedTask = await updateTask({
+      completed: newCompleted,
+    });
+
+    if (updatedTask) {
+      dispatch(toggleCompleteById(data._id));
+    }
+  };
+
+  const handleToggleImportant = async (e) => {
+    e.stopPropagation();
+
+    const newImportant = !data.important;
+
+    const updatedTask = await updateTask({
+      important: newImportant,
+    });
+
+    if (updatedTask) {
+      dispatch(toggleImportantById(data._id));
+    }
+  };
+
   return (
-    <div className="md:w-60 sm:w-50 w-35 h-55 relative mb-4 hover:shadow-md" onClick={() => dispatch(openCardModal({data , index}))}>
+    <div
+      className="md:w-60 sm:w-50 w-35 h-55 relative mb-4 hover:shadow-md"
+      onClick={() =>
+        dispatch(openCardModal({ data, index }))
+      }
+    >
       <div className="absolute w-17 md:w-20 h-8 bg-red-200 dark:bg-slate-600 dark:hover:bg-slate-700 text-center text-xs md:text-sm text-red-400 dark:text-gray-300 rounded-md right-3 -top-6 pt-1 z-0 cursor-pointer duration-200 hover:bg-red-300">
-        {data.directory}
+        {data.dirId?.name}
       </div>
+
       <div
         className={`w-full h-full ${
-          index === 0 ? "bg-violet-500" : "bg-gray-50 dark:bg-slate-800"
+          index === 0
+            ? "bg-violet-500"
+            : "bg-gray-50 dark:bg-slate-800"
         } rounded-sm relative z-1 p-4`}
       >
         <div className="h-30">
           <p
             className={`${
-              index === 0 ? "text-gray-100" : "text-gray-600 dark:text-gray-200"
+              index === 0
+                ? "text-gray-100"
+                : "text-gray-600 dark:text-gray-200"
             } font-medium text-xs md:text-sm mb-2`}
           >
             {data.title}
           </p>
+
           <p
             className={`${
-              index === 0 ? "text-gray-300" : "text-gray-400"
+              index === 0
+                ? "text-gray-300"
+                : "text-gray-400"
             } text-xs md:text-sm truncate`}
           >
             {data.description}
           </p>
         </div>
+
         <div>
           <div className="flex">
             <svg
@@ -52,35 +130,41 @@ function Card({ data, index }) {
                 d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
               />
             </svg>
+
             <p
               className={`text-xs md:text-sm ${
-                index === 0 ? "text-gray-100" : "text-gray-400"
+                index === 0
+                  ? "text-gray-100"
+                  : "text-gray-400"
               }`}
             >
               {formattedDeadline}
             </p>
           </div>
+
           <div
             className={`border border-t border-dashed mt-3 ${
-              index === 0 ? "text-gray-400" : "text-gray-200 dark:text-gray-500"
+              index === 0
+                ? "text-gray-400"
+                : "text-gray-200 dark:text-gray-500"
             }`}
           ></div>
+
           <div className="mt-2 flex justify-between items-center">
             <button
               className={
-                data.isCompleted
+                data.completed
                   ? "bg-green-200 rounded-2xl md:rounded-xl w-6 md:w-22 text-sm h-6 text-green-800 cursor-pointer flex justify-center items-center"
                   : "bg-yellow-200 rounded-2xl md:rounded-xl w-6 md:w-25 text-sm h-6 text-yellow-800 cursor-pointer flex justify-center items-center"
               }
-              onClick={(e) => {
-                e.stopPropagation();
-                dispatch(toggleCompleteById(data.id))
-              }}
+              onClick={handleToggleComplete}
               title={
-                data.isCompleted ? "mark as uncompleted" : "mark as completed"
+                data.completed
+                  ? "mark as uncompleted"
+                  : "mark as completed"
               }
             >
-              {!data.isCompleted && (
+              {!data.completed && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -96,7 +180,8 @@ function Card({ data, index }) {
                   />
                 </svg>
               )}
-              {data.isCompleted && (
+
+              {data.completed && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -114,21 +199,30 @@ function Card({ data, index }) {
               )}
 
               <span className="hidden md:inline">
-                {data.isCompleted ? "completed" : "uncompleted"}
+                {data.completed
+                  ? "completed"
+                  : "uncompleted"}
               </span>
             </button>
+
             <div className="flex gap-1">
               <div
                 title={
-                  data.isImportant ? "mark as unimportant" : "mark as important"
+                  data.important
+                    ? "mark as unimportant"
+                    : "mark as important"
                 }
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
-                  fill={data.isImportant ? "rgb(250, 90, 105)" : "none"}
+                  fill={
+                    data.important
+                      ? "rgb(250, 90, 105)"
+                      : "none"
+                  }
                   stroke={
-                    data.isImportant
+                    data.important
                       ? "none"
                       : index === 0 || isDark
                       ? "rgb(255,255,255)"
@@ -136,10 +230,7 @@ function Card({ data, index }) {
                   }
                   strokeWidth={1.5}
                   className="size-4 md:size-5 cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    dispatch(toggleImportantById(data.id))
-                  }}
+                  onClick={handleToggleImportant}
                 >
                   <path
                     fillRule="evenodd"
@@ -148,38 +239,48 @@ function Card({ data, index }) {
                   />
                 </svg>
               </div>
+
               <div title="delete">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
-                  fill={index === 0 || isDark ? "rgb(255,255,255)" : "rgb(82, 82, 122)"}
+                  fill={
+                    index === 0 || isDark
+                      ? "rgb(255,255,255)"
+                      : "rgb(82, 82, 122)"
+                  }
                   className="size-4 md:size-5 cursor-pointer"
                   onClick={(e) => {
-                    e.stopPropagation()
-                    dispatch(openDeleteTask(data))
+                    e.stopPropagation();
+                    dispatch(openDeleteTask(data));
                   }}
                 >
                   <path
                     fillRule="evenodd"
-                    d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                    d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 1 0 1.5.058l.345-9Z"
                     clipRule="evenodd"
                   />
                 </svg>
               </div>
+
               <div title="more">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
-                  fill={index === 0 || isDark ? "rgb(255,255,255)" : "rgb(82, 82, 122)"}
+                  fill={
+                    index === 0 || isDark
+                      ? "rgb(255,255,255)"
+                      : "rgb(82, 82, 122)"
+                  }
                   className="size-4 md:size-5 cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
-                    dispatch(openEditTaskModal(data))
+                    dispatch(openEditTaskModal(data));
                   }}
                 >
                   <path
                     fillRule="evenodd"
-                    d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z"
+                    d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0Z"
                     clipRule="evenodd"
                   />
                 </svg>

@@ -1,63 +1,80 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const taskSlice = createSlice({
   name: "tasks",
-  initialState: [
-    {
-      id: 1,
-      directory: "main",
-      title: "something",
-      description: "hi there",
-      deadline: "2025-10-19",
-      isCompleted: false,
-      isImportant: true,
+
+  initialState: {
+    tasksList: [],
+    searchQuery: "",
+    sortOption: "orderAdded",
+  },
+
+  reducers: {
+    setTasks: (state, action) => {
+      state.tasksList = action.payload;
     },
-    {
-      id: 2,
-      directory: "main",
-      title: "Task 1",
-      description: "This is the description for this task",
-      deadline: "2025-04-12",
-      isCompleted: false,
-      isImportant: false,
+
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
     },
-    {
-      id: 3,
-      directory: "main",
-      title: "Task 2",
-      description: "This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task This is the description for this task",
-      deadline: "2025-05-15",
-      isCompleted: true,
-      isImportant: true,
+
+    setSortOption: (state, action) => {
+      state.sortOption = action.payload;
     },
-  ],
-  reducers:{
-    toggleCompleteById: (state , action) => {
-      const task = state.find(task => task.id === action.payload);
-      if(task) {
-        task.isCompleted = !task.isCompleted;
+
+    toggleCompleteById: (state, action) => {
+      const task = state.tasksList.find(
+        (task) => task._id === action.payload
+      );
+
+      if (task) {
+        task.completed = !task.completed;
       }
     },
-    toggleImportantById: (state , action) => {
-      const task = state.find(task => task.id === action.payload);
-      if(task) {
-        task.isImportant = !task.isImportant;
+
+    toggleImportantById: (state, action) => {
+      const task = state.tasksList.find(
+        (task) => task._id === action.payload
+      );
+
+      if (task) {
+        task.important = !task.important;
       }
     },
-    deleteTask: (state , action) => {
-      return state.filter(task => task.id !== action.payload)
+
+    deleteTask: (state, action) => {
+      state.tasksList = state.tasksList.filter(
+        (task) => task._id !== action.payload
+      );
     },
-    addTask: (state , action) => {
-      const newTask = {id : nanoid(),...action.payload}
-      state.push(newTask)
+
+    addTask: (state, action) => {
+      state.tasksList.push(action.payload);
     },
-    editTask: (state , action) => {
+
+    editTask: (state, action) => {
       const updatedTask = action.payload;
-      const index = state.findIndex(task => task.id === updatedTask.id);
-      if(index !== -1) state[index] = updatedTask;
-    }
-  }
+
+      const index = state.tasksList.findIndex(
+        (task) => task._id === updatedTask._id
+      );
+
+      if (index !== -1) {
+        state.tasksList[index] = updatedTask;
+      }
+    },
+  },
 });
 
-export const {toggleCompleteById , toggleImportantById , deleteTask , addTask , editTask} = taskSlice.actions;
+export const {
+  setTasks,
+  setSearchQuery,
+  setSortOption,
+  toggleCompleteById,
+  toggleImportantById,
+  deleteTask,
+  addTask,
+  editTask,
+} = taskSlice.actions;
+
 export default taskSlice.reducer;

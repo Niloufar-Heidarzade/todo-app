@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 import modalReducer from "../slices/modalSlice";
 import taskReducer from "../slices/taskSlice";
 import themeReducer from "../slices/themeSlice";
@@ -11,8 +12,8 @@ const store = configureStore({
     tasks: taskReducer,
     theme: themeReducer,
     view: viewReducer,
-    directory: directoryReducer
-  }
+    directory: directoryReducer,
+  },
 });
 
 export default store;

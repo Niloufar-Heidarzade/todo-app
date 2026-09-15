@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
-import { closeNewDirectory } from "../redux/slices/modalSlice";
-import { useRef } from "react";
 import { useForm } from "react-hook-form";
+
+import { closeNewDirectory } from "../redux/slices/modalSlice";
 import { createDirectory } from "../redux/slices/directorySlice";
+import API_URL from "../API/api";
 
 function CreateNewDirectoryModal() {
   const dispatch = useDispatch();
   const modalRef = useRef();
+
   const closeIfClickOutside = (e) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
+    if (
+      modalRef.current &&
+      !modalRef.current.contains(e.target)
+    ) {
       dispatch(closeNewDirectory());
     }
   };
@@ -21,10 +26,33 @@ function CreateNewDirectoryModal() {
     reset,
   } = useForm();
 
-  const onSubmit = (values) => {
-    dispatch(createDirectory(values.newDirectory));
-    dispatch(closeNewDirectory());
-    reset();
+  const onSubmit = async (values) => {
+    try {
+      const response = await fetch(`${API_URL}/directories`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: values.newDirectory,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || "Failed to create directory"
+        );
+      }
+
+      dispatch(createDirectory(data));
+
+      reset();
+      dispatch(closeNewDirectory());
+    } catch (error) {
+      console.error("Error creating directory:", error);
+    }
   };
 
   return (
@@ -33,13 +61,17 @@ function CreateNewDirectoryModal() {
         className="inset-0 fixed bg-black/50 z-50"
         onClick={closeIfClickOutside}
       ></div>
+
       <form
         className="z-60 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 dark:bg-slate-800 w-70 sm:w-90 h-49 rounded-sm py-5 px-4 pb-3"
         ref={modalRef}
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex justify-between">
-          <h1 className="text-slate-700 font-medium dark:text-slate-300">Create new directory</h1>
+          <h1 className="text-slate-700 font-medium dark:text-slate-300">
+            Create new directory
+          </h1>
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -56,9 +88,14 @@ function CreateNewDirectoryModal() {
             />
           </svg>
         </div>
-        <label htmlFor="directory" className="block mt-3 text-sm text-gray-600 dark:text-gray-400">
+
+        <label
+          htmlFor="directory"
+          className="block mt-3 text-sm text-gray-600 dark:text-gray-400"
+        >
           Title
         </label>
+
         <input
           type="text"
           placeholder="Enter a directory name"
@@ -68,13 +105,20 @@ function CreateNewDirectoryModal() {
             required: "directory name is required",
             maxLength: {
               value: 10,
-              message: "directory name can't be more than 10 chracters",
+              message:
+                "directory name can't be more than 10 characters",
             },
           })}
         />
-        {errors.newDirectory && <p className="text-sm text-rose-500">{errors.newDirectory.message}</p>}
+
+        {errors.newDirectory && (
+          <p className="text-sm text-rose-500">
+            {errors.newDirectory.message}
+          </p>
+        )}
+
         <button
-          className="bg-violet-500 text-white text-sm w-15 h-9 rounded-sm mt-5 cursor-pointer transform hover:bg-violet-700 duration-200 "
+          className="bg-violet-500 text-white text-sm w-15 h-9 rounded-sm mt-5 cursor-pointer transform hover:bg-violet-700 duration-200"
           type="submit"
         >
           Create

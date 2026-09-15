@@ -1,45 +1,89 @@
 const taskModel = require("../models/task.model");
 
-const createTask = async (req , res) => {
+const createTask = async (req, res) => {
   try {
     const result = await taskModel.create(req.body);
+
+    await result.populate("dirId");
+
     res.status(201).json(result);
   } catch (error) {
-    res.status(500).json({error : error.message});
+    res.status(500).json({
+      error: error.message,
+    });
   }
 };
 
-const getAllTasks = async (req , res) => {
+const getAllTasks = async (req, res) => {
   try {
-    const result = await taskModel.find();
+    const result = await taskModel
+      .find()
+      .populate("dirId")
+      .exec();
+
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({error : error.message});
+    res.status(500).json({
+      error: error.message,
+    });
   }
 };
 
-const updateTask = async (req , res) => {
+const updateTask = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const data = req.body;
-    const result = await taskModel.findByIdAndUpdate(id , data , {new : true , runValidators : true});
-    if(!result) return res.status(404).json({error : "task not found"});
-    res.status(200).json({message: "task updated successfully " , result});
+
+    const result = await taskModel
+      .findByIdAndUpdate(id, data, {
+        new: true,
+        runValidators: true,
+      })
+      .populate("dirId");
+
+    if (!result) {
+      return res.status(404).json({
+        error: "task not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "task updated successfully",
+      result,
+    });
   } catch (error) {
-    res.status(500).json({error : error.message});
+    res.status(500).json({
+      error: error.message,
+    });
   }
 };
 
-const deleteTask = async (req , res) => {
+const deleteTask = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
+
     const result = await taskModel.findByIdAndDelete(id);
-    if(!result) return res.status(404).json({error : "task not found"});
-    res.status(200).json({message: "task deleted successfully " , result});
+
+    if (!result) {
+      return res.status(404).json({
+        error: "task not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "task deleted successfully",
+      result,
+    });
   } catch (error) {
-    res.status(500).json({error : error.message});
+    res.status(500).json({
+      error: error.message,
+    });
   }
 };
 
-module.exports = {createTask , getAllTasks  , updateTask , deleteTask};
-
+module.exports = {
+  createTask,
+  getAllTasks,
+  updateTask,
+  deleteTask,
+};
